@@ -19,4 +19,4 @@ O banco de dados utilizado foi o PostgreSQL, mas pode ser utilizar o da sua pref
 - telefones.jsp
 
 
-##### ESPERO PODER SURPREENDER VOCÊ COM ESSE PEQUENO SISTEMA FEITO ATRÁVES DAS AULAS DO CURSO JDev Treinamentos.
+##### Espero poder ter surpreendido você com esse pequeno sistema feito através das aulas do curso JDev Treinamentos.
