@@ -12,23 +12,43 @@
 </head>
 <body>
 
-	<a href="acessoLiberado.jsp" id="botaoVoltar"
+	<a href="salvarUsuario?acao=listartodos" id="botaoVoltar"
 		style="margin-left: 15px;">Voltar</a>
 	<a href="index.jsp" id="botaoSair" style="margin-left: 10px;">Sair</a>
 
 	<h2 style="color: red; margin-left: 560px;">${msg}</h2>
-	<form action="salvarUsuario" method="post" class="sign-up"
+	<form action="salvarTelefones" method="post" class="sign-up" onsubmit="return validarCampos() ? true : false;"
 		id="formUser">
 		<table>
 			<tr>
-				<td><input type="text" readonly="readonly" id="id" name="id"
-					value="${userEscolhido}" class="sign-up-input" placeholder="Id" autofocus></td>
+				<td>
+					<input type="text" readonly="readonly" id="id" name="id"
+					value="${usuarioEscolhido.id}" class="sign-up-input" placeholder="Id" autofocus>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="text" readonly="readonly" id="nome" name="nome"
+					value="${usuarioEscolhido.nome}" class="sign-up-input" placeholder="Nome" autofocus>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="text"	 id="numero" name="numero"
+					 value="${fone.numero}" class="sign-up-input" placeholder="Numero" autofocus>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<select id="tipo" name="tipo" style="margin-bottom: 20px;">
+					 	<option>Casa</option>
+					 	<option>Contato</option>
+					 	<option>Celular</option>
+					 </select>
+				</td>
 			</tr>
 		</table>
-		<input type="submit" value="Cadastrar" class="sign-up-button">
-		<input type="submit" class="sign-up-button" value="Atualizar"
-			onclick="document.getElementById('formUser').action = 'salvarUsuario?acao=reset'"
-			style="margin-top: 10px;">
+		<input type="submit" value="Salvar" class="sign-up-button">
 	</form>
 	<hr>
 	<div class="limiter">
@@ -54,7 +74,7 @@
 								<c:out value="${fone.tipo}"></c:out>
 							</div>
 							<div class="cell">
-								<a href="salvarUsuario?acao=delete&user=${fone.id}"><img
+								<a href="salvarTelefones?acao=delete&user=${usuarioEscolhido.id}&tel=${fone.id}" onclick="return confirm('Confirmar a exclusão?');"><img
 									alt="Excluir" title="Excluir"
 									src="resources/imagens/lixeira.svg"
 									style="width: 20px; height: 20px"></a>
@@ -65,5 +85,17 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+		function validarCampos() {
+			if (document.getElementById("nome").value == '') {
+				alert("Informe o Nome");
+				return false;
+			}else if (document.getElementById("tipo").value == '') {
+						alert("Informe o Tipo");
+						return false;
+			}
+			return true;
+		}
+	</script>
 </body>
 </html>

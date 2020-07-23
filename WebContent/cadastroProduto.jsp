@@ -7,6 +7,8 @@
 <meta charset="ISO-8859-1">
 <title>Cadastro de produto</title>
 
+<script src="resources/js/jquery.min.js" type="text/javascript"></script>
+<script src="resources/js/jquery.maskMoney.min.js" type="text/javascript"></script>
 <link rel="stylesheet" href="resources/css/styleCadastro.css">
 
 </head>
@@ -17,7 +19,7 @@
 
 	<h2 style="color: red; margin-left: 560px;">${msg}</h2>
 	<form action="salvarProduto" method="post" class="sign-up"
-		id="formUser" onsubmit="return validarCampos() ? true : false" enctype="multipart/form-data">
+		id="formUser" onsubmit="return validarCampos() ? true : false">
 		<table>
 			<tr>
 				<td><input type="text" readonly="readonly" id="id" name="id"
@@ -29,19 +31,14 @@
 					placeholder="Nome produto" autofocus></td>
 			</tr>
 			<tr>
-				<td><input type="text" id="quantidade" name="quantidade"
+				<td><input type="number" id="quantidade" name="quantidade"
 					value="${pdt.quantidade}" class="sign-up-input"
-					placeholder="Quantidade"></td>
+					placeholder="Quantidade Uni"></td>
 			</tr>
 			<tr>
-				<td><input type="text" id="valor" name="valor"
+				<td><input type=text id="valor" name="valor" data-thousands="." data-decimal="," data-prefix="R$ "
 					value="${pdt.valor}" class="sign-up-input" placeholder="Valor"
 					autofocus></td>
-			</tr>
-			<tr>
-				<td>
-					<input type="file" style="margin-top: 10px; margin-left: 0px;">
-				</td>
 			</tr>
 		</table>
 		<input type="submit" value="Cadastrar Produto" class="sign-up-button">
@@ -83,7 +80,7 @@
 									style="width: 20px; height: 20px"></a>
 							</div>
 							<div class="cell">
-								<a href="salvarProduto?acao=delete&pdt=${pdt.id}"><img
+								<a href="salvarProduto?acao=delete&pdt=${pdt.id}" onclick="return confirm('Confirmar a exclusão?');"><img
 									alt="Excluir" title="Excluir"
 									src="resources/imagens/lixeira.svg"
 									style="width: 20px; height: 20px"></a>
@@ -128,4 +125,10 @@
 		}
 	</script>
 </body>
+
+<script type="text/javascript">
+	$(function() {
+		$('#valor').maskMoney();
+	})
+</script>
 </html>

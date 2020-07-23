@@ -21,8 +21,8 @@ public class DaoUsuario {
 	public void salvar(BeanCursoJsp usuario) {
 		try {
 
-			String sql = "INSERT INTO USUARIO(LOGIN,SENHA, NOME, FONE, CEP, RUA, BAIRRO, NUMERO, CIDADE, UF)"
-					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO USUARIO(LOGIN,SENHA, NOME, FONE, CEP, RUA, BAIRRO, NUMERO, CIDADE, UF, FOTOBASE64, CONTENTTYPE, PDFBASE64, CONTENTTYPEPDF, FOTOBASE64MINIATURA, ATIVO)"
+					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?, ?)";
 			PreparedStatement insert = connection.prepareStatement(sql);
 			insert.setString(1, usuario.getLogin());
 			insert.setString(2, usuario.getSenha());
@@ -34,6 +34,12 @@ public class DaoUsuario {
 			insert.setString(8, usuario.getNumero());
 			insert.setString(9, usuario.getCidade());
 			insert.setString(10, usuario.getUf());
+			insert.setString(11, usuario.getFotoBase64());
+			insert.setString(12, usuario.getContentType());
+			insert.setString(13, usuario.getPdfBase64());
+			insert.setString(14, usuario.getContentTypePdf());
+			insert.setString(15, usuario.getFotoBase64Miniatura());
+			insert.setBoolean(16, usuario.getAtivo());
 			insert.execute();
 			connection.commit();
 
@@ -49,7 +55,7 @@ public class DaoUsuario {
 	public List<BeanCursoJsp> listar() throws Exception {
 		List<BeanCursoJsp> listar = new ArrayList<BeanCursoJsp>();
 
-		String sql = "select * from usuario";
+		String sql = "select * from usuario where login <> 'admin'";
 
 		PreparedStatement select = connection.prepareStatement(sql);
 		ResultSet resultSet = select.executeQuery();
@@ -68,7 +74,11 @@ public class DaoUsuario {
 			beanCursoJsp.setNumero(resultSet.getString("numero"));
 			beanCursoJsp.setCidade(resultSet.getString("cidade"));
 			beanCursoJsp.setUf(resultSet.getString("uf"));
-
+			//beanCursoJsp.setFotoBase64(resultSet.getString("fotobase64"));
+			beanCursoJsp.setFotoBase64Miniatura(resultSet.getString("fotobase64miniatura"));
+			beanCursoJsp.setContentType(resultSet.getString("contenttype"));
+			beanCursoJsp.setPdfBase64(resultSet.getString("pdfbase64"));
+			beanCursoJsp.setContentTypePdf(resultSet.getString("contenttypepdf"));
 			listar.add(beanCursoJsp);
 		}
 		return listar;
@@ -76,7 +86,7 @@ public class DaoUsuario {
 
 	public void delete(String id) {
 		try {
-			String sql = "delete from usuario where id = '" + id + "'";
+			String sql = "delete from usuario where id = '" + id + "' and login <> 'admin'";
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.execute();
 
@@ -92,7 +102,7 @@ public class DaoUsuario {
 	}
 
 	public BeanCursoJsp consultar(String id) throws Exception {
-		String sql = "select * from usuario where id='" + id + "'";
+		String sql = "select * from usuario where id='" + id + "' and login <> 'admin'";
 		PreparedStatement preparedStatement = connection.prepareStatement(sql);
 		ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -109,7 +119,13 @@ public class DaoUsuario {
 			beanCursoJsp.setNumero(resultSet.getString("numero"));
 			beanCursoJsp.setCidade(resultSet.getString("cidade"));
 			beanCursoJsp.setUf(resultSet.getString("uf"));
-
+			beanCursoJsp.setFotoBase64(resultSet.getString("fotobase64"));
+			beanCursoJsp.setContentType(resultSet.getString("contenttype"));
+			beanCursoJsp.setPdfBase64(resultSet.getString("pdfbase64"));
+			beanCursoJsp.setContentTypePdf(resultSet.getString("contenttypepdf"));
+			beanCursoJsp.setFotoBase64Miniatura(resultSet.getString("fotobase64miniatura"));
+			beanCursoJsp.setAtivo(resultSet.getBoolean("ativo"));
+			
 			return beanCursoJsp;
 		}
 
@@ -146,7 +162,11 @@ public class DaoUsuario {
 	public void atualizar(BeanCursoJsp usuario) {
 
 		try {
-			String sql = "update usuario set login = ?, senha = ?, nome = ?, fone = ?, cep = ?, rua = ?, bairro = ?, numero = ?, cidade = ?, uf = ? where id = " + usuario.getId();
+			String sql = "update usuario set login = ?, senha = ?,"
+					+ " nome = ?, fone = ?, cep = ?, rua = ?,"
+					+ " bairro = ?, numero = ?, cidade = ?,"
+					+ " uf = ?, fotobase64 = ?, contenttype = ?,"
+					+ " pdfbase64 = ?, contenttypepdf = ?, fotobase64miniatura = ?, ativo = ? where id = " + usuario.getId();
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, usuario.getLogin());
 			preparedStatement.setString(2, usuario.getSenha());
@@ -158,7 +178,14 @@ public class DaoUsuario {
 			preparedStatement.setString(8, usuario.getNumero());
 			preparedStatement.setString(9, usuario.getCidade());
 			preparedStatement.setString(10, usuario.getUf());
+			preparedStatement.setString(11, usuario.getFotoBase64());
+			preparedStatement.setString(12, usuario.getContentType());
+			preparedStatement.setString(13, usuario.getPdfBase64());
+			preparedStatement.setString(14, usuario.getContentTypePdf());
+			preparedStatement.setString(15, usuario.getFotoBase64Miniatura());
+			preparedStatement.setBoolean(16, usuario.getAtivo());
 			preparedStatement.executeUpdate();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			try {

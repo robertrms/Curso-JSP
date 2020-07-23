@@ -1,3 +1,4 @@
+<%@page import="modelo.BeanCursoJsp"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -8,6 +9,7 @@
 <title>Cadastro de usuário</title>
 
 <link rel="stylesheet" href="resources/css/styleCadastro.css">
+<link rel="stylesheet" href="resources/css/styleCadastroModificado.css">
 
 <!-- Adicionando JQuery -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -24,7 +26,7 @@
 
 	<h2 style="color: red; margin-left: 560px;">${msg}</h2>
 	<form action="salvarUsuario" method="post" class="sign-up"
-		id="formUser">
+		id="formUser" enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td><input type="text" readonly="readonly" id="id" name="id"
@@ -45,13 +47,13 @@
 					autofocus></td>
 			</tr>
 			<tr>
-				<td><input type="text" id="fone" name="fone"
-					value="${user.fone}" class="sign-up-input" placeholder="Telefone"
+				<td><input type="number" id="fone" name="fone"
+					value="${user.fone}" class="sign-up-input" placeholder="Telefone" maxlength="10"
 					autofocus></td>
 			</tr>
 			<tr>
 				<td><input type="text" id="cep" name="cep"
-					value="${user.cep}" class="sign-up-input" placeholder="Cep" autofocus></td>
+					value="${user.cep}" class="sign-up-input" placeholder="Cep" maxlength="8" autofocus></td>
 			</tr>
 			<tr>
 				<td><input type="text" id="rua" name="rua"
@@ -62,16 +64,36 @@
 					value="${user.bairro}" class="sign-up-input" placeholder="Bairro" autofocus></td>
 			</tr>
 			<tr>
-				<td><input type="text" id="numero" name="numero"
-					value="${user.numero}" class="sign-up-input" placeholder="Nº" autofocus></td>
+				<td><input type="number" id="numero" name="numero"
+					value="${user.numero}" class="sign-up-input" placeholder="Nº" maxlength="5" autofocus></td>
 			</tr>
 			<tr>
 				<td><input type="text" id="cidade" name="cidade"
 					value="${user.cidade}" class="sign-up-input" placeholder="Cidade" autofocus></td>
 			</tr>
 			<tr>
-				<td><input type="text" id="uf" name="uf" class="sign-up-input"
+				<td><input type="text" id="uf" name="uf" class="sign-up-input" maxlength="2"
 					value="${user.uf}" placeholder="Uf" autofocus></td>
+			</tr>
+			<tr>
+				<td>Ativo:<input type="checkbox" name="ativo" id="ativo" ${user.ativo ? 'checked': ''}/></td>
+			</tr>
+			<tr>
+				<td>
+					<label>Foto:</label>
+					<input type="file" name="foto" value="Foto" style="margin-top: 10px; margin-bottom: 15px;">
+					<input type="text" style="display: none;" name="fotoUser" readonly="readonly" value="${user.fotoBase64}">
+					<input type="text" style="display: none;" name="contenttypeUser" readonly="readonly" value="${user.contentType}">
+					<input type="text" style="display: none;" name="fotoMiniaturaUser" readonly="readonly" value="${user.fotoBase64Miniatura}">	
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label>Currículo:</label>
+					<input type="file" name="curriculo" value="${user.pdfBase64}" style="margin-top: 10px; margin-bottom: 15px;">
+					<input type="text" style="display: none;" name="pdfTemp" readonly="readonly" value="${user.pdfBase64}">
+					<input type="text" style="display: none;" name="pdfcontenttypeUser" readonly="readonly" value="${user.contentTypePdf}">		
+				</td>
 			</tr>
 		</table>
 		<input type="submit" value="Cadastrar" class="sign-up-button">
@@ -85,7 +107,8 @@
 			<div class="wrap-table100">
 				<div class="table">
 					<div class="row header">
-						<div class="cell">Login</div>
+						<div class="cell">Img</div>
+						<div class="cell">Pdf</div>
 						<div class="cell">Id</div>
 						<div class="cell">Nome</div>
 						<div class="cell">Tel</div>
@@ -97,7 +120,23 @@
 					<c:forEach items="${usuarios}" var="user">
 						<div class="row">
 							<div class="cell">
-								<c:out value="${user.login}"></c:out>
+							<c:if test="${user.fotoBase64Miniatura.isEmpty() == false}">
+								<a href="salvarUsuario?acao=download&tipo=imagem&user=${user.id}"><img src="<c:out value="${user.fotoBase64Miniatura}"></c:out>" alt="Imagem" title="Imagem" style="width: 20px; height: 20px"></a>
+							</c:if>
+							<c:if test="${user.fotoBase64Miniatura.isEmpty() == true}">
+								<img alt="Imagem" src="resources/imagens/noImg.png" style="width: 20px; height: 20px">
+							</c:if>
+							</div>
+							<div class="cell">
+							<c:if test="${user.pdfBase64.isEmpty() == false}">
+								<a href="salvarUsuario?acao=download&tipo=pdf&user=${user.id}">
+									<img alt="pdf" src="resources/imagens/pdf.png" style="width: 20px; height: 20px">
+								</a>
+							</c:if>
+							<c:if test="${user.pdfBase64.isEmpty() == true}">
+								<img alt="pdf" src="resources/imagens/noPdf.png" style="width: 20px; height: 20px">
+							</c:if>
+								
 							</div>
 							<div class="cell">
 								<c:out value="${user.id}"></c:out>
@@ -114,13 +153,13 @@
 									style="width: 20px; height: 20px"></a>
 							</div>
 							<div class="cell">
-								<a href="salvarUsuario?acao=delete&user=${user.id}"><img
+								<a href="salvarUsuario?acao=delete&user=${user.id}" onclick="return confirm('Confirmar a exclusão?');"><img
 									alt="Excluir" title="Excluir"
 									src="resources/imagens/lixeira.svg"
 									style="width: 20px; height: 20px"></a>
 							</div>
 							<div class="cell">
-								<a href="salvarTelefones?user=${user.id}"><img
+								<a href="salvarTelefones?acao=addTel&user=${user.id}"><img
 									alt="Telefones" title="Telefones"
 									src="resources/imagens/iconeTelefone.png"
 									style="width: 20px; height: 20px"></a>

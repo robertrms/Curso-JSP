@@ -12,7 +12,40 @@ public class BeanCursoJsp {
 	private String numero;
 	private String cidade;
 	private String uf;
+	private String fotoBase64;
+	private String fotoBase64Miniatura;
+	private String contentType;
+	private String pdfBase64;
+	private String contentTypePdf;
 	
+	private boolean ativo;
+	
+	private String tempFotoUser;
+	
+	public String getTempFotoUser() {
+		
+		tempFotoUser = "data:" + this.contentType + ";base64," + this.fotoBase64;
+		
+		return tempFotoUser;
+	}
+	
+	
+	
+	public boolean getAtivo() {
+		return ativo;
+	}
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+
+
+
+	public String getFotoBase64Miniatura() {
+		return fotoBase64Miniatura;
+	}
+	public void setFotoBase64Miniatura(String fotoBase64Miniatura) {
+		this.fotoBase64Miniatura = fotoBase64Miniatura;
+	}
 	
 	public Long getId() {
 		return id;
@@ -90,4 +123,33 @@ public class BeanCursoJsp {
 	public void setUf(String uf) {
 		this.uf = uf;
 	}
+	
+	public String getFotoBase64() {
+		return fotoBase64;
+	}
+	public void setFotoBase64(String fotoBase64) {
+		this.fotoBase64 = fotoBase64;
+	}
+	
+	public String getContentType() {
+		return contentType;
+	}
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
+
+	public String getPdfBase64() {
+		return pdfBase64;
+	}
+	public void setPdfBase64(String pdfBase64) {
+		this.pdfBase64 = pdfBase64;
+	}
+
+	public String getContentTypePdf() {
+		return contentTypePdf;
+	}
+	public void setContentTypePdf(String contentTypePdf) {
+		this.contentTypePdf = contentTypePdf;
+	}
+	
 }

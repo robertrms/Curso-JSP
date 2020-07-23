@@ -82,7 +82,7 @@ public class ProdutoServlet extends HttpServlet {
 				produto.setNome(nome);
 				produto.setQuantidade(quantidade);
 				produto.setValor(valor);
-
+				
 				try {
 					if (id == null || id.isEmpty() && !daoProduto.validarNomeProduto(nome)) {
 						request.setAttribute("msg", "Já existe um produto cadastrado com esse nome!");
