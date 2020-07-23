@@ -1,16 +1,16 @@
-# PROJETO DIDÁTICO
+### PROJETO DIDÁTICO
 
-O SISTEMA FOI CRIADO COMO FORMA DIDÁTICA PARA MELHORAR O CONHECIMENTO NA LINGUAGEM JAVA, PODE POSSUIR ERROS OU ALGUNS BUGs QUE PRECISAM SER MELHORADOS, SENDO QUE ESTÁ DISPÓNIVEL PARA QUALQUER UMA PESSOA ACESSAR OU OBTER O PROJETO.
-O BANCO DE DADOS UTILIZADO FOI O POSTGRESQL, MAS PODE SER UTILIZADO O BANCO DA SUA PREFERÊNCIA.
+O sistema foi criado como forma didática para melhorar o conhecimento na linguagem JAVA, pode possuir erros ou alguns bugs que precisam ser melhorados, sendo que está disponível para qualquer uma pessoa acessar ou obter o projeto.
+O banco de dados utilizado foi o PostgreSQL, mas pode ser utilizar o da sua preferência.
 
-## PACOTES DO PROJETO:
+##### PACOTES DO PROJETO:
 - connection
 - dao
 - filter
 - modelo
 - servlet
 
-## TELAS DO PROJETO:
+##### TELAS DO PROJETO:
 - acessoLiberado.jsp
 - acessoNegado.jps
 - cadastroProduto.jsp
@@ -19,4 +19,4 @@ O BANCO DE DADOS UTILIZADO FOI O POSTGRESQL, MAS PODE SER UTILIZADO O BANCO DA S
 - telefones.jsp
 
 
-## ESPERO PODER SURPREENDER VOCÊ COM ESSE PEQUENO SISTEMA FEITO ATRÁVES DAS AULAS DO CURSO JDev Treinamentos.
+##### ESPERO PODER SURPREENDER VOCÊ COM ESSE PEQUENO SISTEMA FEITO ATRÁVES DAS AULAS DO CURSO JDev Treinamentos.
